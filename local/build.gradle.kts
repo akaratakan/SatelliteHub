@@ -6,11 +6,16 @@ plugins {
 }
 
 android {
-    namespace = "com.example.common"
-    compileSdk = 34
+    namespace = "com.example.local"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -26,9 +31,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    hilt {
-        enableAggregatingTask = true
-    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -36,16 +38,19 @@ android {
 
 dependencies {
 
+    implementation(project(":model"))
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
+    implementation(libs.ksp)
+    kapt(libs.room.ksp)
+    implementation(libs.room.ktx)
+    implementation(libs.room)
     implementation(libs.moshi)
-    implementation(libs.moshi.converter)
-
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 }
