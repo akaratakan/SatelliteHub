@@ -6,13 +6,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.repository"
     compileSdk = 34
+    namespace = "com.example.usecase"
 
     defaultConfig {
         minSdk = 21
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -21,9 +20,9 @@ android {
 
 dependencies {
 
-    implementation(project(":local"))
-    implementation(project(":common"))
+    implementation(project(":repository"))
     implementation(project(":model"))
+    implementation(project(":local"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
@@ -31,6 +30,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(libs.coroutines)
+
+    implementation(libs.timber.log)
+    implementation(libs.moshi.converter)
+    implementation(libs.moshi)
+
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)

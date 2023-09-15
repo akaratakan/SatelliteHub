@@ -21,7 +21,7 @@ class SatelliteRepository @Inject constructor(
         return dao.fetchAll()
     }
 
-    fun fetchSatelliteWithId(id: Int): SatelliteEntity? {
+    fun fetchSatelliteWithIdFromDB(id: Int): SatelliteEntity? {
         return dao.fetchWithId(id)
     }
 
