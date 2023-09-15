@@ -1,0 +1,56 @@
+# Gradle dosyaları
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Proguard dosyaları
+proguard-rules.pro
+
+# Android Studio klasörü
+.idea/
+
+# Keystore dosyaları
+*.jks
+
+# Otomatik oluşturulmuş dosyalar
+*.apk
+*.ap_
+
+# Android Studio'dan oluşturulan dosyalar
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/libraries
+
+# User-specific files
+.gradle
+.idea
+*.kotlin_module
+
+# Uygulama oluştururken oluşturulan dosyalar
+/build
+
+# Projenin kökünde oluşturulan dosyalar
+captures/
+
+# Bin, sınıf dosyaları
+bin/
+gen/
+out/
+app/build/
+
+# Firebase cihaz grubu dosyası (eğer Firebase kullanılıyorsa)
+app/google-services.json
+
+# Projenin kurulumu ile ilgili dosyalar
+/.idea
+/local.properties
+
+# Genel olarak kullanılmayan dosyalar
+.DS_Store
+.idea/caches/
+.idea/libraries/
+/build/
