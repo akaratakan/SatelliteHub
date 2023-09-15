@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Satellite Hub"
 include(":app")
- 
+include(":common")
+include(":model")

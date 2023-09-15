@@ -1,19 +1,20 @@
-package com.example.common
+package com.example.common.util
 
 import android.content.Context
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class DataProvider {
+@Singleton
+class DataProvider @Inject constructor(
+    private val moshi: Moshi,
+    @ApplicationContext private val context: Context
+) {
 
-
-    fun <T>readJSONFromAssets(dataClass: Class<T>,context: Context, fileName: String): T? {
-        val moshi = Moshi.Builder()
-            .addLast(KotlinJsonAdapterFactory())
-            .build()
-
+    fun <T>readJSONFromAssets(dataClass: Class<T>, fileName: String): T? {
         val jsonAdapter: JsonAdapter<T> = moshi.adapter(dataClass)
 
         return try {
