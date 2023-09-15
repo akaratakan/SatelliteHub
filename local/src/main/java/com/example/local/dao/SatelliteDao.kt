@@ -14,7 +14,7 @@ interface SatelliteDao {
     fun insert(satellite: SatelliteEntity)
 
     @Query("SELECT * FROM satellite_db WHERE id = :id")
-    fun fetchWithId(id: String): SatelliteEntity?
+    fun fetchWithId(id: Int): SatelliteEntity?
 
     @Query("SELECT * FROM satellite_db")
     fun fetchAll(): List<SatelliteEntity>?
