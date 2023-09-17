@@ -47,15 +47,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var themeFlow by remember { mutableStateOf<Boolean?>(value = null) }
+            var themeFlow by remember { mutableStateOf(false) }
             AppTheme(darkTheme = themeFlow) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val themeResult = !(themeFlow ?: !isSystemInDarkTheme())
                     BaseScreen {
-                        themeFlow = themeResult
+                        themeFlow = !themeFlow
                     }
                 }
             }
