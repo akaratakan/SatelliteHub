@@ -13,9 +13,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-/**
- * Created by atakanakar on 16.08.2023
- */
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DatabaseModule {

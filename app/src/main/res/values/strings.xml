@@ -6,5 +6,7 @@
     <string name="position_error">Position could not fetching.</string>
     <string name="height_and_mass">Height/Weight</string>
     <string name="cost">Cost</string>
-    <string name="fetching">Fetching</string>
+    <string name="fetching">Fetching…</string>
+    <string name="toolbar_title_home">Satellite Hub</string>
+    <string name="toolbar_title_detail">Satellite Detail</string>
 </resources>

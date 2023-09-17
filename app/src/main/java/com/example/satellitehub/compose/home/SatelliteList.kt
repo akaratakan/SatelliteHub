@@ -1,6 +1,7 @@
 package com.example.satellitehub.compose.home
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,8 +66,10 @@ fun SatelliteListContainer(
                 }
 
                 is Magic.Success -> {
-                    SatelliteList(resultState.data.toList()) {
-                        onItemClicked(it)
+                    if (resultState.data.isNotEmpty()) {
+                        SatelliteList(resultState.data.toList()) { onItemClicked(it) }
+                    } else {
+                        EmptyScreen()
                     }
                 }
 
@@ -135,6 +139,19 @@ fun SatelliteList(
                 onItemClicked(it)
             }
         }
+    }
+}
+
+@Composable
+fun EmptyScreen(
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "No satellites were found in the search results.")
     }
 }
 

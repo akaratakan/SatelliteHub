@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val lightColors = lightColorScheme(
@@ -92,11 +93,11 @@ private val darkColors = darkColorScheme(
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean? = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
 
-    val colorScheme = if (darkTheme) {
+    val colorScheme = if (darkTheme == true) {
         darkColors
     } else {
         lightColors
@@ -105,12 +106,13 @@ fun AppTheme(
     val systemUiController = rememberSystemUiController()
 
     systemUiController.setSystemBarsColor(
-        color = md_transparent_black,
-        darkIcons = false
+        color = colorScheme.onPrimary,
+        darkIcons = !(darkTheme ?: !isSystemInDarkTheme())
     )
     systemUiController.setNavigationBarColor(
-        color = md_transparent_black,
-        darkIcons = false)
+        color = colorScheme.background,
+        darkIcons = false
+    )
 
     MaterialTheme(
         colorScheme = colorScheme,
@@ -120,4 +122,11 @@ fun AppTheme(
     )
 }
 
+@Preview
+@Composable
+fun PreviewTheme() {
+    AppTheme {
+
+    }
+}
 
