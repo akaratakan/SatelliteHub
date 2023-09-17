@@ -1,8 +1,7 @@
 plugins {
-    alias(libs.plugins.kotlinAndroid)
-    id(libs.plugins.kotlin.kapt.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
-    id(libs.plugins.hilt.plugin.get().pluginId)
+    alias(libs.plugins.kotlinAndroid)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -16,13 +15,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
 
     implementation(project(":repository"))
     implementation(project(":model"))
-    implementation(project(":local"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
@@ -39,5 +40,6 @@ dependencies {
 
 
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.compiler)
 }

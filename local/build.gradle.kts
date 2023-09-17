@@ -1,21 +1,15 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.kotlinAndroid)
-    id(libs.plugins.kotlin.kapt.get().pluginId)
-    id(libs.plugins.hilt.plugin.get().pluginId)
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.example.local"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
 
     buildTypes {
@@ -46,11 +40,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.ksp)
-    kapt(libs.room.ksp)
+
+    implementation(libs.moshi)
+
     implementation(libs.room.ktx)
     implementation(libs.room)
-    implementation(libs.moshi)
+    ksp(libs.room.ksp)
+
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.compiler)
 }

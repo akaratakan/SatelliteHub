@@ -1,8 +1,7 @@
 plugins {
-    alias(libs.plugins.kotlinAndroid)
-    id(libs.plugins.kotlin.kapt.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
-    id(libs.plugins.hilt.plugin.get().pluginId)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -16,6 +15,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -32,6 +34,9 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    implementation(libs.timber.log)
+
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.compiler)
 }

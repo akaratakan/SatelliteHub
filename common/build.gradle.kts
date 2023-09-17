@@ -1,8 +1,7 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.kotlinAndroid)
-    id(libs.plugins.kotlin.kapt.get().pluginId)
-    id(libs.plugins.hilt.plugin.get().pluginId)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -12,22 +11,9 @@ android {
     defaultConfig {
         minSdk = 21
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    hilt {
-        enableAggregatingTask = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -47,5 +33,6 @@ dependencies {
     implementation(libs.moshi.converter)
 
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.compiler)
 }
