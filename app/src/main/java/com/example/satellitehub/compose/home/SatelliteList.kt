@@ -27,11 +27,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.model.SatelliteListItemObject
 import com.example.model.generic.Magic
+import com.example.satellitehub.R
 import com.example.satellitehub.compose.common.ErrorPopUp
 import com.example.satellitehub.compose.common.ProgressScreen
 import com.example.satellitehub.style.AppTheme
@@ -151,7 +153,7 @@ fun EmptyScreen(
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "No satellites were found in the search results.")
+        Text(text = stringResource(id = R.string.empty_list_warn))
     }
 }
 

@@ -9,4 +9,5 @@
     <string name="fetching">Fetching…</string>
     <string name="toolbar_title_home">Satellite Hub</string>
     <string name="toolbar_title_detail">Satellite Detail</string>
+    <string name="empty_list_warn">No satellites were found in the search results.</string>
 </resources>
