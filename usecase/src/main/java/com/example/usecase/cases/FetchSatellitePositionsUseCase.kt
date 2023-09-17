@@ -1,12 +1,10 @@
 package com.example.usecase.cases
 
 import com.example.model.Position
-import com.example.model.SatelliteListItemObject
-import com.example.model.SatellitePositionListObject
 import com.example.model.generic.Magic
 import com.example.repository.SatelliteRepository
 import com.example.usecase.di.IoDispatcher
-import com.example.usecase.root.FlowUseCase
+import com.example.usecase.root.ActionFlowUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -19,28 +17,25 @@ import javax.inject.Inject
 class FetchSatellitePositionsUseCase @Inject constructor(
     private val satelliteRepository: SatelliteRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) : FlowUseCase<Position>() {
+) : ActionFlowUseCase<Position>() {
 
     private val intervalMillis = 3000L
-    private var currentPosition = 0
+    private var index = 0
     private var id: Int = 0
 
     fun init(id: Int) {
         this.id = id
     }
 
-    override fun abraKadabra(): Flow<Magic<Position>> = flow {
+    override fun hokusPokus(): Flow<Magic<Position>> = flow {
         emit(Magic.loading())
+        delay(2000) //fake delay
         val data = satelliteRepository.fetchSatellitePositions()
         val positions = data?.list?.first { it.id.toInt() == id }?.positions ?: emptyList()
         while (true) {
-            emit(Magic.success(positions[currentPosition]))
+            emit(Magic.success(positions[index]))
             delay(intervalMillis)
-            if (currentPosition == 2) {
-                currentPosition = 0
-            } else {
-                currentPosition++
-            }
+            index = (index + 1) % positions.size
         }
     }.catch {
         Timber.e(it, "Position List fetch error")

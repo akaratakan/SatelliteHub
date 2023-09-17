@@ -16,13 +16,24 @@ import javax.inject.Inject
 class FetchSatelliteListUseCase @Inject constructor(
     private val satelliteRepository: SatelliteRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) : FlowUseCase<Array<SatelliteListItemObject>?>() {
-    override fun abraKadabra(): Flow<Magic<Array<SatelliteListItemObject>?>> = flow{
+) : FlowUseCase<List<SatelliteListItemObject>>() {
+
+    lateinit var name:String
+    fun init(name:String) {
+        this.name = name
+    }
+
+    override fun abraKadabra(): Flow<Magic<List<SatelliteListItemObject>>> = flow {
         emit(Magic.loading())
-        val data = satelliteRepository.fetchSatelliteList()
-        emit(Magic.success(data))
+        if (name.length > 2) {
+            val data = satelliteRepository.fetchSatelliteList(name)
+            emit(Magic.success(data))
+        } else if (name.isEmpty()) {
+            val data = satelliteRepository.fetchSatelliteList(name)
+            emit(Magic.success(data))
+        }
     }.catch {
-        Timber.e(it,"Satellite List fetch error")
+        Timber.e(it, "Satellite List fetch error")
         emit(Magic.failure(it.message ?: "Something went wrong"))
     }.flowOn(ioDispatcher)
 

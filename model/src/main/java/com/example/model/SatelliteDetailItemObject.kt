@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class SateliteDetailItemObject(
+data class SatelliteDetailItemObject(
     @Json(name = "cost_per_launch")
     val costPerLaunch: Int,
     @Json(name = "first_flight")

@@ -3,9 +3,10 @@ package com.example.repository
 import com.example.common.util.DataProvider
 import com.example.local.dao.SatelliteDao
 import com.example.local.entity.SatelliteEntity
-import com.example.model.SateliteDetailItemObject
+import com.example.model.SatelliteDetailItemObject
 import com.example.model.SatelliteListItemObject
 import com.example.model.SatellitePositionListObject
+import timber.log.Timber
 import javax.inject.Inject
 
 class SatelliteRepository @Inject constructor(
@@ -13,34 +14,33 @@ class SatelliteRepository @Inject constructor(
     private val dao: SatelliteDao
 ) {
 
-    fun insertSatellite(satelliteEntity: SatelliteEntity) {
-        return dao.insert(satelliteEntity)
+    fun insertSatellite(detailObject: SatelliteDetailItemObject) {
+        val satelliteEntity = convertToEntity(detailObject)
+        return try {
+            dao.insert(satelliteEntity)
+            Timber.d("Satellite insert operation succeed.")
+        } catch (e:Exception) {
+            Timber.e(e,"Satellite could not insert.")
+        }
+    }
+    fun fetchSatelliteWithIdFromDB(id: Int): SatelliteDetailItemObject? {
+        val data = dao.fetchWithId(id)
+        data?.let { return convertToResponseObject(data) } ?: return null
     }
 
-    fun fetchAll(): List<SatelliteEntity>? {
-        return dao.fetchAll()
-    }
-
-    fun fetchSatelliteWithIdFromDB(id: Int): SatelliteEntity? {
-        return dao.fetchWithId(id)
-    }
-
-    fun deleteSatellite(satelliteEntity: SatelliteEntity) {
-        return dao.delete(satelliteEntity)
-    }
-
-    fun fetchSatelliteList(): Array<SatelliteListItemObject>? {
-        return dataProvider.readJSONFromAssets(
+    fun fetchSatelliteList(name: String): List<SatelliteListItemObject> {
+        val data = dataProvider.readJSONFromAssets(
             Array<SatelliteListItemObject>::class.java,
             SatelliteObject.SATELLITE_LIST
-        )
+        )?.toList()
+        return data?.filter { it.name.contains(other = name, ignoreCase = true) } ?: emptyList()
     }
 
-    fun fetchSatelliteDetail(): Array<SateliteDetailItemObject>? {
+    fun fetchSatelliteDetail(id:Int): SatelliteDetailItemObject? {
         return dataProvider.readJSONFromAssets(
-            Array<SateliteDetailItemObject>::class.java,
+            Array<SatelliteDetailItemObject>::class.java,
             SatelliteObject.SATELLITE_DETAIL_LIST
-        )
+        )?.toList()?.first { it.id == id }
     }
 
     fun fetchSatellitePositions(): SatellitePositionListObject? {
@@ -50,7 +50,7 @@ class SatelliteRepository @Inject constructor(
         )
     }
 
-    fun convertToEntity(detail:SateliteDetailItemObject): SatelliteEntity {
+    private fun convertToEntity(detail: SatelliteDetailItemObject): SatelliteEntity {
         return SatelliteEntity(
             id = detail.id,
             costPerLaunch = detail.costPerLaunch,
@@ -60,8 +60,8 @@ class SatelliteRepository @Inject constructor(
         )
     }
 
-    fun convertToResponseObject(entity:SatelliteEntity): SateliteDetailItemObject {
-        return SateliteDetailItemObject(
+    private fun convertToResponseObject(entity: SatelliteEntity): SatelliteDetailItemObject {
+        return SatelliteDetailItemObject(
             id = entity.id,
             costPerLaunch = entity.costPerLaunch,
             firstFlight = entity.firstFlight,
