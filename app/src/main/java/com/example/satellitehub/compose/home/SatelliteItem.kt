@@ -80,7 +80,7 @@ fun IndicatorSignal(isActive: Boolean) {
 
 @Composable
 fun TitleAndSubtitle(title: String, isActive: Boolean) {
-    val color = if (isActive) Color.Black else Color.Gray
+    val color = if (!isActive) Color.Gray else Color.Unspecified
     val subtitle = if (isActive) stringResource(id = R.string.active)
     else stringResource(id = R.string.passive)
     Column(

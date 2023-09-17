@@ -25,12 +25,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.model.SatelliteListItemObject
 import com.example.model.generic.Magic
 import com.example.satellitehub.compose.common.ErrorPopUp
 import com.example.satellitehub.compose.common.ProgressScreen
+import com.example.satellitehub.style.AppTheme
 import com.example.satellitehub.viewmodels.SatelliteListViewModel
 
 @Composable
@@ -135,3 +137,27 @@ fun SatelliteList(
         }
     }
 }
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PreviewListScreen() {
+    AppTheme {
+        SatelliteList(satellites = dummyList, onItemClicked = {})
+    }
+}
+
+val dummyList = listOf(
+    SatelliteListItemObject(
+        active = false,
+        id = 1,
+        name = "Alpha-01"
+    ), SatelliteListItemObject(
+        active = true,
+        id = 1,
+        name = "Alpha-02",
+    ), SatelliteListItemObject(
+        active = false,
+        id = 1,
+        name = "Alpha-03",
+    )
+)

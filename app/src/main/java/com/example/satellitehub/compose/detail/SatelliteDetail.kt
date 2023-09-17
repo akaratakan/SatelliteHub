@@ -109,8 +109,7 @@ fun SatelliteTitle(title: String) {
         text = title,
         style = TextStyle(
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp,
-            color = Color.Black
+            fontSize = 24.sp
         )
     )
 }
@@ -180,16 +179,14 @@ fun TitleAndDescription(title: String, description: String) {
             text = "${title}:  ",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                color = Color.Black
+                fontSize = 16.sp
             )
         )
         Text(
             text = description,
             style = TextStyle(
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-                color = Color.Black
+                fontSize = 16.sp
             )
         )
     }
