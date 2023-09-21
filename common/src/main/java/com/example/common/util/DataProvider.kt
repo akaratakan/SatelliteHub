@@ -9,12 +9,12 @@ import javax.inject.Singleton
 
 @Singleton
 class DataProvider @Inject constructor(
-    private val moshi: Moshi,
-    @ApplicationContext private val context: Context
+    val moshi: Moshi,
+    @ApplicationContext val context: Context
 ) {
 
-    fun <T> readJSONFromAssets(dataClass: Class<T>, fileName: String): T? {
-        val jsonAdapter: JsonAdapter<T> = moshi.adapter(dataClass)
+    inline fun <reified T> readJSONFromAssets(fileName: String): T? {
+        val jsonAdapter: JsonAdapter<T> = this.moshi.adapter(T::class.java)
         val inputStream = context.assets.open(fileName)
         val size = inputStream.available()
         val buffer = ByteArray(size)
