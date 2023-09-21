@@ -9,7 +9,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -35,7 +34,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.model.SatelliteListItemObject
-import com.example.satellitehub.R
 import com.example.satellitehub.compose.detail.DetailScreen
 import com.example.satellitehub.compose.home.SatelliteListScreen
 import com.example.satellitehub.style.AppTheme
@@ -66,10 +64,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
     val navController = rememberNavController()
-    var routeState by remember { mutableStateOf(Screen.Home.route) }
-    val toolbarTitle =
-        if (routeState == Screen.Home.route) stringResource(id = R.string.toolbar_title_home)
-        else stringResource(id = R.string.toolbar_title_detail)
+    var screenState:Screen by remember { mutableStateOf(Screen.Home) }
     val animateEnter: EnterTransition = fadeIn() + slideInHorizontally(initialOffsetX = { it })
     val animateExit: ExitTransition = fadeOut() + slideOutHorizontally(targetOffsetX = { -it })
 
@@ -79,8 +74,7 @@ fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
     Scaffold(topBar = {
         TopBar(
             navController = navController,
-            toolbarTitle = toolbarTitle,
-            routeState = routeState
+            screen = screenState
         ) {
             onThemeChangeButtonClicked()
         }
@@ -102,7 +96,7 @@ fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
                     name = backStackEntry.arguments?.getString("name") ?: ""
                 )
                 DetailScreen(detail)
-                routeState = Screen.Detail.route
+                screenState = Screen.Detail
             }
             composable(route = Screen.Home.route,
                 enterTransition = { fadeIn() },
@@ -114,7 +108,7 @@ fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
                         launchSingleTop = true
                     }
                 }
-                routeState = Screen.Home.route
+                screenState = Screen.Home
             }
         }
     }
@@ -124,14 +118,14 @@ fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
 @Composable
 fun TopBar(
     navController: NavController,
-    toolbarTitle: String,
-    routeState: String,
+    screen: Screen,
     onThemeChangeButtonClicked: () -> Unit
 ) {
+    val toolbarTitle: String = stringResource(id = screen.resId)
     TopAppBar(
         title = { Text(text = toolbarTitle) },
         navigationIcon = {
-            if (routeState == Screen.Detail.route) {
+            if (screen.route == Screen.Detail.route) {
                 IconButton(
                     onClick = {
                         navController.popBackStack()
