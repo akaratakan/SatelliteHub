@@ -19,5 +19,75 @@
     "first_flight": "2019-09-14",
     "height": 132,
     "mass": 1435000
+  },
+  {
+    "id": 4,
+    "cost_per_launch": 9000000,
+    "first_flight": "2020-09-14",
+    "height": 132,
+    "mass": 1435000
+  },
+  {
+    "id": 5,
+    "cost_per_launch": 12000000,
+    "first_flight": "2019-01-14",
+    "height": 123,
+    "mass": 1495000
+  },
+  {
+    "id": 6,
+    "cost_per_launch": 5400000,
+    "first_flight": "2019-09-14",
+    "height": 154,
+    "mass": 1455000
+  },
+  {
+    "id": 7,
+    "cost_per_launch": 8200000,
+    "first_flight": "2019-09-14",
+    "height": 240,
+    "mass": 1435000
+  },
+  {
+    "id": 8,
+    "cost_per_launch": 9200000,
+    "first_flight": "2019-03-14",
+    "height": 138,
+    "mass": 1435000
+  },
+  {
+    "id": 9,
+    "cost_per_launch": 6000000,
+    "first_flight": "2020-09-19",
+    "height": 152,
+    "mass": 1435000
+  },
+  {
+    "id": 10,
+    "cost_per_launch": 6000000,
+    "first_flight": "2019-08-11",
+    "height": 132,
+    "mass": 1435000
+  },
+  {
+    "id": 11,
+    "cost_per_launch": 6000000,
+    "first_flight": "2018-06-14",
+    "height": 132,
+    "mass": 2435000
+  },
+  {
+    "id": 12,
+    "cost_per_launch": 9400000,
+    "first_flight": "2019-09-14",
+    "height": 132,
+    "mass": 1635000
+  },
+  {
+    "id": 13,
+    "cost_per_launch": 10000000,
+    "first_flight": "2017-03-19",
+    "height": 132,
+    "mass": 1935000
   }
 ]

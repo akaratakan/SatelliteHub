@@ -13,5 +13,55 @@
     "id": 3,
     "active": true,
     "name": "Starship-3"
+  },
+  {
+    "id": 4,
+    "active": true,
+    "name": "Starship-4"
+  },
+  {
+    "id": 5,
+    "active": false,
+    "name": "Alpha-1"
+  },
+  {
+    "id": 6,
+    "active": true,
+    "name": "Dragon-2"
+  },
+  {
+    "id": 7,
+    "active": true,
+    "name": "Nebuchadnezzar-9"
+  },
+  {
+    "id": 8,
+    "active": true,
+    "name": "Midori-3"
+  },
+  {
+    "id": 9,
+    "active": false,
+    "name": "Aditya-1"
+  },
+  {
+    "id": 10,
+    "active": true,
+    "name": "Aeolus-1"
+  },
+  {
+    "id": 11,
+    "active": true,
+    "name": "Aqua-1"
+  },
+  {
+    "id": 12,
+    "active": true,
+    "name": "AlSat-1"
+  },
+  {
+    "id": 13,
+    "active": true,
+    "name": "AlSat-2"
   }
 ]
