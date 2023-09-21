@@ -49,7 +49,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(project(":model"))
-    implementation(project(":usecase"))
+    implementation(project(":domain"))
 
     implementation(libs.compose.runtime)
     implementation(libs.compose.lifecycle.runtime)

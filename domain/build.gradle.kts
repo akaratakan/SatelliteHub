@@ -22,7 +22,7 @@ android {
 
 dependencies {
 
-    implementation(project(":repository"))
+    implementation(project(":data"))
     implementation(project(":model"))
 
     implementation(libs.core.ktx)
