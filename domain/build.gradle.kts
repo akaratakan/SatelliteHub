@@ -35,7 +35,6 @@ dependencies {
     implementation(libs.coroutines)
 
     implementation(libs.timber.log)
-    implementation(libs.moshi.converter)
     implementation(libs.moshi)
 
 

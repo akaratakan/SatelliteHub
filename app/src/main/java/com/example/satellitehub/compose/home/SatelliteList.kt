@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,13 +43,17 @@ import com.example.satellitehub.viewmodels.SatelliteListViewModel
 @Composable
 fun SatelliteListScreen(onItemClicked: (item: SatelliteListItemObject) -> Unit) {
     val viewModel: SatelliteListViewModel = hiltViewModel()
-    LaunchedEffect(Unit) {
-        viewModel.fetchList("")
+    val searchedText by viewModel.searchTextState.collectAsState()
+    LaunchedEffect(searchedText) {
+        viewModel.fetchList(searchedText)
     }
     val resultState = viewModel.listFlow.collectAsState(initial = Magic.loading())
 
     SatelliteListContainer(resultState = resultState.value,
-        onSearch = { viewModel.fetchList(it) },
+        initText = searchedText,
+        onSearch = {
+            viewModel.setSearchState(it)
+        },
         onItemClicked = { onItemClicked(it) }
     )
 }
@@ -56,12 +61,13 @@ fun SatelliteListScreen(onItemClicked: (item: SatelliteListItemObject) -> Unit) 
 @Composable
 fun SatelliteListContainer(
     resultState: Magic<List<SatelliteListItemObject>>,
+    initText: String,
     onSearch: (name: String) -> Unit,
     onItemClicked: (id: SatelliteListItemObject) -> Unit
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
-            SearchField(onSearch = { onSearch(it) })
+            SearchField(initText = initText, onSearch = { onSearch(it) })
             when (resultState) {
                 is Magic.Progress -> {
                     ProgressScreen()
@@ -87,8 +93,8 @@ fun SatelliteListContainer(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchField(onSearch: (name: String) -> Unit) {
-    var searchText by remember { mutableStateOf("") }
+fun SearchField(initText: String = "", onSearch: (name: String) -> Unit) {
+    var searchText by remember { mutableStateOf(initText) }
     SearchBar(
         query = searchText,
         onQueryChange = { newText ->

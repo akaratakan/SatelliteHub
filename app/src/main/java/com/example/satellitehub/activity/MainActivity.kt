@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -23,12 +24,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -37,6 +40,7 @@ import com.example.model.SatelliteListItemObject
 import com.example.satellitehub.compose.detail.DetailScreen
 import com.example.satellitehub.compose.home.SatelliteListScreen
 import com.example.satellitehub.style.AppTheme
+import com.example.satellitehub.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,14 +49,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var themeFlow by remember { mutableStateOf(false) }
+            val viewModel: MainViewModel = hiltViewModel()
+            val themeFlow by viewModel.themeFlow.collectAsState(isSystemInDarkTheme())
             AppTheme(darkTheme = themeFlow) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     BaseScreen {
-                        themeFlow = !themeFlow
+                        viewModel.setTheme(!themeFlow)
                     }
                 }
             }
@@ -64,7 +69,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
     val navController = rememberNavController()
-    var screenState:Screen by remember { mutableStateOf(Screen.Home) }
+    var screenState: Screen by remember { mutableStateOf(Screen.Home) }
     val animateEnter: EnterTransition = fadeIn() + slideInHorizontally(initialOffsetX = { it })
     val animateExit: ExitTransition = fadeOut() + slideOutHorizontally(targetOffsetX = { -it })
 
