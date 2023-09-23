@@ -22,6 +22,8 @@ android {
 
 dependencies {
 
+    implementation(project(":model"))
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -31,6 +33,7 @@ dependencies {
 
     implementation(libs.moshi)
     implementation(libs.moshi.converter)
+    implementation(libs.timber.log)
 
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)

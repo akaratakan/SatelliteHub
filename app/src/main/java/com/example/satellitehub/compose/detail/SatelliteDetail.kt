@@ -54,7 +54,7 @@ fun DetailScreen(clickedItem: SatelliteListItemObject) {
 
 @Composable
 fun DetailComposer(
-    resultState: Magic<SatelliteDetailItemObject>,
+    resultState: Magic<SatelliteDetailItemObject?>,
     positionState: Magic<Position>?,
     satelliteName: String
 ) {

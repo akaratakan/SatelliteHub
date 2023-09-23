@@ -1,4 +1,4 @@
-package com.example.repository
+package com.example.common.provider
 
 object SatelliteObject {
     const val SATELLITE_LIST = "satellite_list.json"

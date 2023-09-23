@@ -1,8 +1,8 @@
 package com.example.usecase.cases
 
+import com.example.data.repository.SatelliteRepository
 import com.example.model.Position
 import com.example.model.generic.Magic
-import com.example.repository.SatelliteRepository
 import com.example.usecase.di.IoDispatcher
 import com.example.usecase.root.ActionFlowUseCase
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,6 +20,7 @@ class FetchSatellitePositionsUseCase @Inject constructor(
 ) : ActionFlowUseCase<Position>() {
 
     private val intervalMillis = 3000L
+    private val initialMillis = 1000L
     private var index = 0
     private var id: Int = 0
 
@@ -29,9 +30,10 @@ class FetchSatellitePositionsUseCase @Inject constructor(
 
     override fun hokusPokus(): Flow<Magic<Position>> = flow {
         emit(Magic.loading())
-        delay(2000) //fake delay
-        val data = satelliteRepository.fetchSatellitePositions()
-        val positions = data?.list?.first { it.id.toInt() == id }?.positions ?: emptyList()
+        delay(initialMillis) // fake delay
+        val positions = satelliteRepository.fetchSatellitePositions(id).first {
+            it.id.toInt() == id
+        }.positions
         while (true) {
             emit(Magic.success(positions[index]))
             delay(intervalMillis)

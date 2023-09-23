@@ -24,7 +24,7 @@ android {
 dependencies {
 
     implementation(project(":local"))
-    implementation(project(":common"))
+    implementation(project(":source"))
     implementation(project(":model"))
 
     implementation(libs.core.ktx)
@@ -35,6 +35,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(libs.timber.log)
+    implementation(libs.moshi)
 
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
