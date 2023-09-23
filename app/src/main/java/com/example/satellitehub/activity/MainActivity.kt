@@ -24,24 +24,30 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.model.SatelliteListItemObject
 import com.example.satellitehub.compose.detail.DetailScreen
 import com.example.satellitehub.compose.home.SatelliteListScreen
 import com.example.satellitehub.style.AppTheme
+import com.example.satellitehub.util.getFirstSegment
 import com.example.satellitehub.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
@@ -50,7 +56,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel: MainViewModel = hiltViewModel()
-            val themeFlow by viewModel.themeFlow.collectAsState(isSystemInDarkTheme())
+            val themeFlow by viewModel.themeFlow.collectAsState()
             AppTheme(darkTheme = themeFlow) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -69,10 +75,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
     val navController = rememberNavController()
+
     var screenState: Screen by remember { mutableStateOf(Screen.Home) }
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        val screenRoute = destination.route?.getFirstSegment()
+        screenMap[screenRoute]?.let {
+            screenState = it
+        }
+    }
     val animateEnter: EnterTransition = fadeIn() + slideInHorizontally(initialOffsetX = { it })
     val animateExit: ExitTransition = fadeOut() + slideOutHorizontally(targetOffsetX = { -it })
-
     val animatePopEnter: EnterTransition = fadeIn() + slideInHorizontally(initialOffsetX = { -it })
     val animatePopExit: ExitTransition = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
 
@@ -101,7 +113,6 @@ fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
                     name = backStackEntry.arguments?.getString("name") ?: ""
                 )
                 DetailScreen(detail)
-                screenState = Screen.Detail
             }
             composable(route = Screen.Home.route,
                 enterTransition = { fadeIn() },
@@ -113,7 +124,6 @@ fun BaseScreen(onThemeChangeButtonClicked: () -> Unit) {
                         launchSingleTop = true
                     }
                 }
-                screenState = Screen.Home
             }
         }
     }
