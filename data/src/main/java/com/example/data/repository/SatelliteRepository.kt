@@ -7,7 +7,7 @@ import com.example.model.SatellitePositionItemObject
 
 interface SatelliteRepository {
     fun insertSatellite(satelliteEntity: SatelliteEntity)
+    fun fetchAllSatellites(query: String): List<SatelliteListItemObject>
     fun fetchSatellite(id: Int): SatelliteDetailItemObject?
-    fun fetchAllSatellitesFromProvider(query: String): List<SatelliteListItemObject>
     fun fetchSatellitePositions(id: Int):  List<SatellitePositionItemObject>
 }

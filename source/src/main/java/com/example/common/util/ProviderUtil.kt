@@ -6,8 +6,8 @@ import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
 
-class ProviderUtil(private val context: Context) {
-    fun readJSONFromAssets(fileName: String): String? {
+class ProviderUtil(private val context: Context, val moshi: Moshi) {
+    fun readJSONFromAssets(fileName: String): String {
         return try {
             val inputStream: InputStream = context.assets.open(fileName)
             val size: Int = inputStream.available()
@@ -20,9 +20,10 @@ class ProviderUtil(private val context: Context) {
             ""
         }
     }
-}
 
-inline fun <reified T> parseJson(moshi: Moshi, jsonData: String): T? {
-    val kvAdapter = moshi.adapter(T::class.java).lenient()
-    return  kvAdapter.fromJson(jsonData)
+    inline fun <reified T> parseJson(jsonData: String): T? {
+        val kvAdapter = moshi.adapter(T::class.java).lenient()
+        return kvAdapter.fromJson(jsonData)
+    }
+
 }

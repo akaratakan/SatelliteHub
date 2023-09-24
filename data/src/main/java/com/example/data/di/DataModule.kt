@@ -18,22 +18,24 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
-
     @Provides
     @Singleton
-    fun provideUtil(@ApplicationContext context: Context): ProviderUtil {
-        return ProviderUtil(context)
+    fun provideUtil(@ApplicationContext context: Context, moshi: Moshi): ProviderUtil {
+        return ProviderUtil(context, moshi)
     }
 
     @Provides
     @Singleton
-    fun provideSatelliteSource(providerUtil: ProviderUtil, moshi: Moshi): SatelliteSource {
-        return SatelliteSource(providerUtil, moshi)
+    fun provideSatelliteSource(providerUtil: ProviderUtil): SatelliteSource {
+        return SatelliteSource(providerUtil)
     }
 
     @Provides
     @Singleton
-    fun provideSatelliteRepository(localDataSource: SatelliteDao, satelliteSource: SatelliteSource): SatelliteRepository {
+    fun provideSatelliteRepository(
+        localDataSource: SatelliteDao,
+        satelliteSource: SatelliteSource
+    ): SatelliteRepository {
         return SatelliteRepositoryImpl(satelliteSource, localDataSource)
     }
 }

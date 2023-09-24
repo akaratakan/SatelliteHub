@@ -15,19 +15,20 @@ class SatelliteListViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _searchTextState = MutableStateFlow("")
-    val searchTextState: StateFlow<String>
-        get() = _searchTextState
+    val searchTextState: StateFlow<String> get() = _searchTextState
 
-    fun setSearchState(query:String) {
+    fun setSearchState(query: String) {
         _searchTextState.value = query
     }
 
 
     val listFlow = fetchListUseCase.resultFlow
     fun fetchList(name: String) {
-        fetchListUseCase.init(name)
-        viewModelScope.launch {
-            fetchListUseCase.launch()
+        if (name.length > 2 || name.isEmpty()) {
+            fetchListUseCase.init(name)
+            viewModelScope.launch {
+                fetchListUseCase.launch()
+            }
         }
     }
 }
